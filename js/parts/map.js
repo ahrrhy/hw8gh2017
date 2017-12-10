@@ -57,18 +57,18 @@ export default class Map {
     }
 
     // scan matrix and clean it's decoration elements
-    // mapWatch() {
-    //     let map = this.map,
-    //         self = this.self;
-    //     for (let mapElem of map) {
-    //         for (let mapElemDepth of mapElem) {
-    //             if (mapElemDepth !== this.empty) {
-    //                 console.log(mapElemDepth);
-    //             }
-    //
-    //         }
-    //     }
-    // }
+    mapWatch() {
+        let map = this.map,
+            self = this.self;
+        for (let mapElem of map) {
+            for (let mapElemDepth of mapElem) {
+                if (mapElemDepth !== this.empty) {
+                    console.log(mapElemDepth);
+                }
+
+            }
+        }
+    }
 
     mapDraw(htmlNode) {
         let map = this.map,
@@ -100,9 +100,10 @@ export default class Map {
             }
             console.log(self.bush.plantPosition);
             console.log(self.map);
-            //self.mapWatch();
+            self.mapWatch();
             htmlNode.innerHTML = output;
-            console.log(self.decoreElementsStore);
+
+           // self.mapWatch();
             }, 500
         );
     }
