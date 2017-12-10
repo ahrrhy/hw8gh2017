@@ -24,6 +24,7 @@ export default class Map {
         this.startBushQuantity = mapElements.startBushQuantity;
         // the matrix map
         this.map = [];
+        this.decoreElementsStore = [];
         this.self = this;
     }
 
@@ -46,16 +47,32 @@ export default class Map {
                 decorElement = element,
                 map = this.map;
             if (map[randY][randX] === this.empty) {
+                // this sets the coordination of plants into plant.plantPosition
                 decorElement.plantPosition[0] = randY;
                 decorElement.plantPosition[1] = randX;
                 map[randY][randX] = decorElement.toString();
+                this.decoreElementsStore.push(decorElement);
             }
         }
     }
 
+    // scan matrix and clean it's decoration elements
+    // mapWatch() {
+    //     let map = this.map,
+    //         self = this.self;
+    //     for (let mapElem of map) {
+    //         for (let mapElemDepth of mapElem) {
+    //             if (mapElemDepth !== this.empty) {
+    //                 console.log(mapElemDepth);
+    //             }
+    //
+    //         }
+    //     }
+    // }
+
     mapDraw(htmlNode) {
         let map = this.map,
-        self = this.self;
+            self = this.self;
         setInterval( function () {
             let output = ``;
             for (let mapElem of map) {
@@ -81,13 +98,11 @@ export default class Map {
                 }
                 output += `</p>`;
             }
-            self.tree.live();
-            self.bush.live();
-            console.log(self.tree.age);
-            console.log(self.bush.age);
             console.log(self.bush.plantPosition);
             console.log(self.map);
+            //self.mapWatch();
             htmlNode.innerHTML = output;
+            console.log(self.decoreElementsStore);
             }, 500
         );
     }

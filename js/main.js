@@ -23,5 +23,6 @@ div.setAttribute('class', 'container');
 document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(div);
     matrix.mapDraw(div);
-
+    console.log(matrix.decoreElementsStore[0].plantPosition);
+    console.log(matrix.decoreElementsStore[0].isAlive);
 });
