@@ -13,7 +13,6 @@ export default class Map {
         this.fruit = mapElements.fruit;
         this.deer = mapElements.deer;
         this.mouse = mapElements.mouse;
-
         // the quantity of decorations. i think it will help to create new instances of Plant;
         this.startTreesQuantity = mapElements.startTreesQuantity;
         this.startBushQuantity = mapElements.startBushQuantity;
@@ -33,38 +32,72 @@ export default class Map {
             }
         }
     }
+    getRandomEmpty() {
+        let randY = randomInteger(0, this.ySize-1),
+            randX = randomInteger(0, this.xSize-1),
+            mapHasRandX = (randX !== -0 && randX !== -1),
+            mapHasRandY = (randY !== -0 && randX !== -1),
+            map = this.map;
+        if (mapHasRandX && mapHasRandY && map[randY][randX] === this.empty) {
+            return [randY, randX];
+        }
+        return this.getRandomEmpty();
+    }
+    getClosestEmpty(arr) {
+        let X = arr[1],
+            Y = arr[0],
+            map = this.map,
+            changeX = randomInteger(-1, 1),
+            changeY = randomInteger(-1, 1);
+        if (map[Y+changeY][X+changeX] === this.empty) {
+            return [Y+changeY, X+changeX];
+        }
+        return this.getClosestEmpty([Y,X]);
 
+    }
     // make new instance of element
     mapElementNewInstance(Element, elementParameters) {
         return new Element(elementParameters);
     }
 
-    // add new instances of decoration elements
+    // add new instances of decoration elements in the beginning
     mapAddDecorations(element, elementParameters, elementQuantity) {
         for (let i = 0; i < elementQuantity; i++) {
-            let randY = randomInteger(0, this.ySize-1),
-                randX = randomInteger(0, this.xSize-1),
-                decorElement = this.mapElementNewInstance(element, elementParameters),
-                map = this.map;
-            if (map[randY][randX] && map[randY][randX] === this.empty) {
-                // this sets the coordination of plants into plant.plantPosition
-                decorElement.plantPosition[0] = randY;
-                decorElement.plantPosition[1] = randX;
-                map[randY][randX] = decorElement;
+            //console.log(this.mapGetRandomEmpty());
+            let randCoord = this.getRandomEmpty();
+            let decorElement = this.mapElementNewInstance(element, elementParameters),
+                map = this.map,
+                X = randCoord[1],
+                Y = randCoord[0];
+            // this sets the coordination of element into element.Position
+            decorElement.Position[0] = Y;
+            decorElement.Position[1] = X;
+            map[Y][X] = decorElement;
+            if (element.type === this.tree && element.type === this.bush) {
                 this.decorElementsStore.push(decorElement);
             }
         }
     }
-    mapPlantsLive() {
+
+    // i try to make every plant live
+    mapPlantsLive(Element, elementParameters) {
         let store = this.decorElementsStore,
             map = this.map,
             empty = this.empty;
-        store.forEach(function(item) {
-            let posX = item.plantPosition[1],
-                posY = item.plantPosition[0];
+
+        store.forEach((item) =>{
+            console.log(this.getRandomEmpty());
+            let posX = item.Position[1],
+                posY = item.Position[0],
+                closestEmpty = this.getClosestEmpty([posY, posX]);
+            console.log(closestEmpty);
             item.live();
             if (item.isAlive === false) {
                 map[posY][posX] = empty;
+            }
+            if (item.timeToFruit()) {
+                let fruit = this.mapElementNewInstance(Element, elementParameters);
+                map[closestEmpty[0]][closestEmpty[1]] = fruit;
             }
         });
     }
@@ -78,7 +111,6 @@ export default class Map {
                 if (mapElemDepth === this.empty) {
                     className = `${this.empty}`;
                 }
-
                 if (mapElemDepth !== this.empty) {
                     className = `${mapElemDepth.view()}`;
                 }

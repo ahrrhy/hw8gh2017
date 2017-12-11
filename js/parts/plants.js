@@ -9,15 +9,15 @@ export default class Plant {
         this.isGrowth = false;
         this.size = plantParams.size;
         this.isAlive = true;
-        this.timeToFruits = 0;
+        this.makeFruitPeriod = plantParams.makeFruitPeriod;
         this.bushClass = plantParams.bushClass;
         this.treeClass = plantParams.treeClass;
         this.springClass = plantParams.springClass;
-        this.plantPosition = [];
+        this.Position = [];
         this.self = this;
     }
 
-    isEatten() {
+    isEaten() {
         return this.isAlive = false;
     }
     getGrowth() {
@@ -37,17 +37,19 @@ export default class Plant {
         if (type === 'tree') { return this.fruitSize = 6; }
     }
 
-    // makeFruit(map, thing) {
-    //     let curPos = getPosition(map, thing),
-    //         nextPos = getNextPosition(curPos[0],curPos[1]),
-    //         nextPosY = nextPos[0],
-    //         nextPosX = nextPos[1],
-    //         productAge = (this.age % 4 === 0);
-    //     if (productAge && map[nextPosY][nextPosX] === 'empty' && this.isAlive === true) {
-    //         let someFruit = new Fruit(this.getFruitSize());
-    //         map[nextPosY][nextPosX] = someFruit.toString();
-    //     }
-    // }
+    timeToFruit() {
+        if (this.isAlive) {
+            let condition = (this.age - this.growthAge);
+            if (condition === 0) {
+                condition += 1;
+            }
+            let productAge = (condition % this.makeFruitPeriod === 0);
+            if (productAge) {
+                return productAge;
+            }
+            else return false;
+        }
+    }
 
     view() {
         let isGrowth = this.isGrowth === true,

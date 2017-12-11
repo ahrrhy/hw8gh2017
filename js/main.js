@@ -10,6 +10,7 @@ import {bushParams} from "./parts/parameters.js"
 // importing classes
 import Map from "./parts/map.js";
 import Plant from "./parts/plants.js";
+import Fruit from "./parts/fruit.js";
 
 let matrix = new Map(mapElements);
 
@@ -26,15 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     matrix.mapDraw(div);
     setInterval(function () {
         console.log(matrix.map);
-        matrix.mapPlantsLive();
+        matrix.mapPlantsLive(Fruit, 4);
         matrix.mapDraw(div);
-        console.log(matrix.decorElementsStore);
-        console.log(matrix.decorElementsStore[2].isGrowth);
-        console.log(matrix.decorElementsStore[2].view());
-        console.log(matrix.decorElementsStore[2].age);
-        if (matrix.decorElementsStore[2].age === 5) {
-            matrix.decorElementsStore[2].isAlive = false;
-        }
-
     }, 4000);
 });
