@@ -6,12 +6,13 @@ export default class Plant {
     constructor(plantParams) {
         this.age = 0;
         this.growthAge = plantParams.growthAge;
+        this.isGrowth = false;
         this.size = plantParams.size;
         this.isAlive = true;
         this.timeToFruits = 0;
-        this.deathAge = plantParams.deathAge;
         this.bushClass = plantParams.bushClass;
         this.treeClass = plantParams.treeClass;
+        this.springClass = plantParams.springClass;
         this.plantPosition = [];
         this.self = this;
     }
@@ -21,8 +22,8 @@ export default class Plant {
     }
     getGrowth() {
         if (this.age >= this.growthAge) {
-            return this.canBeEatten = true;
-        } else return this.canBeEatten = false;
+            return this.isGrowth = true;
+        } else return this.isGrowth = false;
     }
 
     getTheType() {
@@ -49,26 +50,25 @@ export default class Plant {
     // }
 
     view() {
-        if (this.isAlive === false) {
+        let isGrowth = this.isGrowth === true,
+            isAlive = this.isAlive === true,
+            type = this.getTheType();
+        if (!isAlive) {
             return 'empty';
-        } else {
-            let type = this.getTheType();
+        }
+        if (!isGrowth && isAlive) {
+            return `${this.springClass}`;
+        }
+        if (isGrowth && isAlive){
             if (type === 'bush') { return `${this.bushClass} bush`; }
             if (type === 'tree') { return `${this.treeClass} tree`; }
         }
     }
 
     live() {
-        this.age++;
-        if (this.age === this.deathAge) {
-            return this.isAlive = false;
+        if (this.isAlive === true) {
+            this.age++;
+            this.getGrowth();
         }
-    }
-
-    toString() {
-        if (this.isAlive === false) {
-            return this.plantPosition = 'empty';
-        }
-        return this.getTheType();
     }
 }

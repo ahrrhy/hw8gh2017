@@ -3,26 +3,38 @@ import {randomInteger} from "./parts/functions.js";
 
 // importing parameters
 import {mapElements} from "./parts/parameters.js";
+import {treeParams} from "./parts/parameters.js"
+import {bushParams} from "./parts/parameters.js"
 
 
 // importing classes
 import Map from "./parts/map.js";
+import Plant from "./parts/plants.js";
 
 let matrix = new Map(mapElements);
 
 matrix.mapGenerate();
-matrix.mapAddDecorations(matrix.tree, matrix.startTreesQuantity);
-matrix.mapAddDecorations(matrix.bush, matrix.startBushQuantity);
-
+// creating new instances of plants
+matrix.mapAddDecorations(Plant, treeParams, matrix.startTreesQuantity);
+matrix.mapAddDecorations(Plant, bushParams, matrix.startBushQuantity);
 export {matrix};
-console.log(matrix.map);
-
 
 let div = document.createElement('div');
 div.setAttribute('class', 'container');
 document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(div);
     matrix.mapDraw(div);
-    console.log(matrix.decoreElementsStore[0].plantPosition);
-    console.log(matrix.decoreElementsStore[0].isAlive);
+    setInterval(function () {
+        console.log(matrix.map);
+        matrix.mapPlantsLive();
+        matrix.mapDraw(div);
+        console.log(matrix.decorElementsStore);
+        console.log(matrix.decorElementsStore[2].isGrowth);
+        console.log(matrix.decorElementsStore[2].view());
+        console.log(matrix.decorElementsStore[2].age);
+        if (matrix.decorElementsStore[2].age === 5) {
+            matrix.decorElementsStore[2].isAlive = false;
+        }
+
+    }, 4000);
 });

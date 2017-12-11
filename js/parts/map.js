@@ -8,11 +8,6 @@ export default class Map {
         this.ySize = mapElements.ySize;
         //map elements
         this.empty = mapElements.empty;
-        this.treeView = mapElements.tree.toString();
-        this.bushView = mapElements.bush.toString();
-        this.fruitView = mapElements.fruit.toString();
-        this.deerView = mapElements.deer.toString();
-        this.mouseView = mapElements.mouse.toString();
         this.tree = mapElements.tree;
         this.bush = mapElements.bush;
         this.fruit = mapElements.fruit;
@@ -24,7 +19,7 @@ export default class Map {
         this.startBushQuantity = mapElements.startBushQuantity;
         // the matrix map
         this.map = [];
-        this.decoreElementsStore = [];
+        this.decorElementsStore = [];
         this.self = this;
     }
 
@@ -39,72 +34,58 @@ export default class Map {
         }
     }
 
+    // make new instance of element
+    mapElementNewInstance(Element, elementParameters) {
+        return new Element(elementParameters);
+    }
+
     // add new instances of decoration elements
-    mapAddDecorations(element, elementQuantity) {
+    mapAddDecorations(element, elementParameters, elementQuantity) {
         for (let i = 0; i < elementQuantity; i++) {
             let randY = randomInteger(0, this.ySize-1),
                 randX = randomInteger(0, this.xSize-1),
-                decorElement = element,
+                decorElement = this.mapElementNewInstance(element, elementParameters),
                 map = this.map;
-            if (map[randY][randX] === this.empty) {
+            if (map[randY][randX] && map[randY][randX] === this.empty) {
                 // this sets the coordination of plants into plant.plantPosition
                 decorElement.plantPosition[0] = randY;
                 decorElement.plantPosition[1] = randX;
-                map[randY][randX] = decorElement.toString();
-                this.decoreElementsStore.push(decorElement);
+                map[randY][randX] = decorElement;
+                this.decorElementsStore.push(decorElement);
             }
         }
     }
-
-    // scan matrix and clean it's decoration elements
-    mapWatch() {
-        let map = this.map,
-            self = this.self;
-        for (let mapElem of map) {
-            for (let mapElemDepth of mapElem) {
-                if (mapElemDepth !== this.empty) {
-                    console.log(mapElemDepth);
-                }
-
+    mapPlantsLive() {
+        let store = this.decorElementsStore,
+            map = this.map,
+            empty = this.empty;
+        store.forEach(function(item) {
+            let posX = item.plantPosition[1],
+                posY = item.plantPosition[0];
+            item.live();
+            if (item.isAlive === false) {
+                map[posY][posX] = empty;
             }
-        }
+        });
     }
-
     mapDraw(htmlNode) {
         let map = this.map,
-            self = this.self;
-        setInterval( function () {
-            let output = ``;
-            for (let mapElem of map) {
-                output += `<p>`;
-                for (let mapElemDepth of mapElem) {
-                    let className;
-                    if (mapElemDepth === self.empty) {
-                        className = `${self.empty}`;
-                    }
-                    if (mapElemDepth === self.bush.toString()) {
-                        className = `${self.bush.view()}`;
-                    }
-                    if (mapElemDepth === self.tree.toString()) {
-                        className = `${self.tree.view()}`;
-                    }
-                    if (mapElemDepth === self.fruit.toString()) {
-                        className = `${self.fruit.view()}`;
-                    }
-                    if (mapElemDepth === self.deer.toString()) {
-                        className = `${self.deer.view()}`;
-                    }
-                    output += `<span class = "${className}"></span>`;
+            output = ``;
+        for (let mapElem of map) {
+            output += `<p>`;
+            for (let mapElemDepth of mapElem) {
+                let className;
+                if (mapElemDepth === this.empty) {
+                    className = `${this.empty}`;
                 }
-                output += `</p>`;
-            }
-            console.log(self.bush.plantPosition);
-            console.log(self.map);
-            self.mapWatch();
-            htmlNode.innerHTML = output;
 
-           // self.mapWatch();
-            }, 500
-        );
+                if (mapElemDepth !== this.empty) {
+                    className = `${mapElemDepth.view()}`;
+                }
+                output += `<span class = "${className}"></span>`;
+            }
+            output += `</p>`;
+        }
+        htmlNode.innerHTML = output;
     }
 }
