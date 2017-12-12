@@ -1,4 +1,8 @@
 // map parameters fo class Map constructor
+let fruitParams = {
+    timeToLive : 4,
+    fruitClass : 'flaticon-nature'
+};
 let treeParams = {
     // constructor's set
     size : 3,
@@ -7,7 +11,8 @@ let treeParams = {
     // classes for different types of plants
     treeClass : 'flaticon-tree-shape-of-thin-trunk-with-small-leaves-circles-outlines',
     bushClass : 'flaticon-big-plant-like-a-small-tree',
-    springClass: 'flaticon-tree-trunk-growing-from-soil'
+    springClass: 'flaticon-tree-trunk-growing-from-soil',
+    fruitParams : fruitParams
 };
 let bushParams = {
     size : 2,
@@ -15,11 +20,10 @@ let bushParams = {
     makeFruitPeriod : 4,
     treeClass : 'flaticon-tree-shape-of-thin-trunk-with-small-leaves-circles-outlines',
     bushClass : 'flaticon-big-plant-like-a-small-tree',
-    springClass: 'flaticon-tree-trunk-growing-from-soil'
+    springClass: 'flaticon-tree-trunk-growing-from-soil',
+    fruitParams : fruitParams
 };
-let fruitParams = {
 
-};
 let mapElements = {
     xSize : 30,
     ySize : 30,
@@ -32,4 +36,4 @@ let mapElements = {
 };
 
 
-export {mapElements,treeParams, bushParams};
+export {mapElements,treeParams, bushParams, fruitParams};

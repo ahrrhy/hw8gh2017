@@ -1,9 +1,8 @@
-import {treeParams} from "./parameters.js";
-import {bushParams} from "./parameters.js";
-import {matrix} from "../main.js"
+
+import Fruit from "./fruit.js";
 
 export default class Plant {
-    constructor(plantParams) {
+    constructor(plantParams, fruitParams) {
         this.age = 0;
         this.growthAge = plantParams.growthAge;
         this.isGrowth = false;
@@ -14,6 +13,9 @@ export default class Plant {
         this.treeClass = plantParams.treeClass;
         this.springClass = plantParams.springClass;
         this.Position = [];
+        // fruitParams
+        this.fruit = Fruit;
+        this.fruitParams = plantParams.fruitParams;
         this.self = this;
     }
 
@@ -33,8 +35,8 @@ export default class Plant {
 
     getFruitSize() {
         let type = this.getTheType();
-        if (type === 'bush') { return this.fruitSize = 4; }
-        if (type === 'tree') { return this.fruitSize = 6; }
+        if (type === 'bush') { return this.fruitParams.fruitSize = 4; }
+        if (type === 'tree') { return this.fruitParams.fruitSize = 6; }
     }
 
     timeToFruit() {

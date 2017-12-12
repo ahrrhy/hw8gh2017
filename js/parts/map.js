@@ -1,6 +1,5 @@
 import {randomInteger} from "./functions.js";
 
-
 export default class Map {
     constructor(mapElements) {
         // matrix sizes
@@ -80,7 +79,7 @@ export default class Map {
     }
 
     // i try to make every plant live
-    mapPlantsLive(Element, elementParameters) {
+    mapPlantsLive() {
         let store = this.decorElementsStore,
             map = this.map,
             empty = this.empty;
@@ -90,14 +89,17 @@ export default class Map {
             let posX = item.Position[1],
                 posY = item.Position[0],
                 closestEmpty = this.getClosestEmpty([posY, posX]);
-            console.log(closestEmpty);
             item.live();
             if (item.isAlive === false) {
                 map[posY][posX] = empty;
             }
             if (item.timeToFruit()) {
-                let fruit = this.mapElementNewInstance(Element, elementParameters);
-                map[closestEmpty[0]][closestEmpty[1]] = fruit;
+                item.getFruitSize();
+                let fruit = this.mapElementNewInstance(item.fruit, item.fruitParams);
+                if (closestEmpty !== undefined) {
+                    map[closestEmpty[0]][closestEmpty[1]] = fruit;
+                }
+
             }
         });
     }

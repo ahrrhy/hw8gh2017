@@ -3,8 +3,8 @@ import {randomInteger} from "./parts/functions.js";
 
 // importing parameters
 import {mapElements} from "./parts/parameters.js";
-import {treeParams} from "./parts/parameters.js"
-import {bushParams} from "./parts/parameters.js"
+import {treeParams} from "./parts/parameters.js";
+import {bushParams} from "./parts/parameters.js";
 
 
 // importing classes
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     matrix.mapDraw(div);
     setInterval(function () {
         console.log(matrix.map);
-        matrix.mapPlantsLive(Fruit, 4);
+        matrix.mapPlantsLive();
         matrix.mapDraw(div);
     }, 4000);
 });
