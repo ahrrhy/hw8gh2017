@@ -2,7 +2,7 @@
 import Fruit from "./fruit.js";
 
 export default class Plant {
-    constructor(plantParams, fruitParams) {
+    constructor(plantParams) {
         this.age = 0;
         this.growthAge = plantParams.growthAge;
         this.isGrowth = false;
@@ -37,6 +37,7 @@ export default class Plant {
         let type = this.getTheType();
         if (type === 'bush') { return this.fruitParams.fruitSize = 4; }
         if (type === 'tree') { return this.fruitParams.fruitSize = 6; }
+        console.log();
     }
 
     timeToFruit() {

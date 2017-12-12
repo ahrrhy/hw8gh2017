@@ -77,30 +77,43 @@ export default class Map {
             }
         }
     }
-
+    // findMapElements() {
+    //     let map = this.map;
+    //     for (let mapElem of map) {
+    //         for (let mapElemDepth of mapElem) {
+    //             if (mapElemDepth !== this.empty) {
+    //                 this.decorElementsStore.push(mapElemDepth);
+    //             }
+    //         }
+    //     }
+    // }
     // i try to make every plant live
     mapPlantsLive() {
         let store = this.decorElementsStore,
             map = this.map,
-            empty = this.empty;
-
+            empty = this.empty,
+            fruit;
         store.forEach((item) =>{
-            console.log(this.getRandomEmpty());
             let posX = item.Position[1],
                 posY = item.Position[0],
                 closestEmpty = this.getClosestEmpty([posY, posX]);
+
             item.live();
             if (item.isAlive === false) {
                 map[posY][posX] = empty;
             }
             if (item.timeToFruit()) {
                 item.getFruitSize();
-                let fruit = this.mapElementNewInstance(item.fruit, item.fruitParams);
+                fruit = this.mapElementNewInstance(item.fruit, item.fruitParams);
+
                 if (closestEmpty !== undefined) {
                     map[closestEmpty[0]][closestEmpty[1]] = fruit;
                 }
-
+                if (fruit.isAlive) {
+                    fruit.live();
+                }
             }
+
         });
     }
     mapDraw(htmlNode) {

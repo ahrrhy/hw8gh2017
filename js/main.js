@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
     matrix.mapDraw(div);
     setInterval(function () {
         console.log(matrix.map);
+
         matrix.mapPlantsLive();
         matrix.mapDraw(div);
-    }, 4000);
+    }, 2000);
 });
